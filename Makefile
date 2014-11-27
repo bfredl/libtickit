@@ -19,9 +19,9 @@ ifeq ($(PROFILE),1)
   override LDFLAGS+=-pg
 endif
 
-ifeq ($(shell pkg-config --atleast-version=1.1.0 unibilium && echo 1),1)
-  override CFLAGS +=$(shell pkg-config --cflags unibilium) -DHAVE_UNIBILIUM
-  override LDFLAGS+=$(shell pkg-config --libs   unibilium)
+ifeq ($(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config --atleast-version=1.1.0 unibilium && echo 1),1)
+  override CFLAGS +=$(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config --cflags unibilium) -DHAVE_UNIBILIUM
+  override LDFLAGS+=$(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config --libs   unibilium)
 else ifeq ($(shell pkg-config ncursesw && echo 1),1)
   override CFLAGS +=$(shell pkg-config --cflags ncursesw)
   override LDFLAGS+=$(shell pkg-config --libs   ncursesw)
@@ -29,8 +29,8 @@ else
   override LDFLAGS+=-lncurses
 endif
 
-override CFLAGS +=$(shell pkg-config --cflags termkey)
-override LDFLAGS+=$(shell pkg-config --libs   termkey)
+override CFLAGS +=$(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config --cflags termkey)
+override LDFLAGS+=$(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config --libs   termkey)
 
 CFILES=$(wildcard src/*.c)
 HFILES=$(wildcard include/*.h)

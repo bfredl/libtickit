@@ -73,10 +73,10 @@ src/linechars.inc: src/linechars.inc.PL
 	perl $^ > $@
 
 t/%.t: t/%.c $(LIBRARY) t/taplib.lo t/mockterm.lo
-	$(LIBTOOL) --mode=link --tag=CC gcc -o $@ -Iinclude -std=c99 -ggdb $^
+	$(LIBTOOL) --mode=link --tag=CC $(CC) -o $@ -Iinclude -std=c99 -ggdb $^
 
 t/%.lo: t/%.c
-	$(LIBTOOL) --mode=compile --tag=CC gcc $(CFLAGS) -o $@ -c $^
+	$(LIBTOOL) --mode=compile --tag=CC $(CC) $(CFLAGS) -o $@ -c $^
 
 .PHONY: test
 test: $(TESTFILES)
@@ -98,7 +98,7 @@ examples/%.lo: examples/%.c $(HFILES)
 	$(LIBTOOL) --mode=compile --tag=CC $(CC) $(CFLAGS) -o $@ -c $<
 
 examples/%: examples/%.lo $(LIBRARY)
-	$(LIBTOOL) --mode=link --tag=CC gcc -o $@ $^
+	$(LIBTOOL) --mode=link --tag=CC $(CC) -o $@ $^
 
 .PHONY: install
 install: install-inc install-lib install-man

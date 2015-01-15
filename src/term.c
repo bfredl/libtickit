@@ -77,7 +77,8 @@ static TermKey *get_termkey(TickitTerm *tt)
     else if(tt->is_utf8 == 0)
       flags |= TERMKEY_FLAG_RAW;
 
-    tt->termkey = termkey_new(tt->infd, TERMKEY_FLAG_EINTR | flags);
+    tt->termkey = termkey_new(tt->infd,
+        TERMKEY_FLAG_EINTR | TERMKEY_FLAG_CTRLC | flags);
 
     tt->is_utf8 = !!(termkey_get_flags(tt->termkey) & TERMKEY_FLAG_UTF8);
   }

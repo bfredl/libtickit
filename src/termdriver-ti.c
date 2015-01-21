@@ -399,7 +399,22 @@ static int setctl_int(TickitTermDriver *ttd, TickitTermCtl ctl, int value)
 
 static int setctl_str(TickitTermDriver *ttd, TickitTermCtl ctl, const char *value)
 {
-  return 0;
+  switch(ctl) {
+    case TICKIT_TERMCTL_ICON_TEXT:
+      tickit_termdrv_write_strf(ttd, "\e]1;%s\e\\", value);
+      return 1;
+
+    case TICKIT_TERMCTL_TITLE_TEXT:
+      tickit_termdrv_write_strf(ttd, "\e]2;%s\e\\", value);
+      return 1;
+
+    case TICKIT_TERMCTL_ICONTITLE_TEXT:
+      tickit_termdrv_write_strf(ttd, "\e]0;%s\e\\", value);
+      return 1;
+
+    default:
+      return 0;
+  }
 }
 
 static void attach(TickitTermDriver *ttd, TickitTerm *tt)
